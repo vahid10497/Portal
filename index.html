@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="./styles.css" rel="stylesheet"/>
     <style>
+      model-viewer::part(ar-button),
       model-viewer ::slotted([slot="ar-button"]) {
         position: absolute;
         top: 50%;
@@ -19,6 +20,10 @@
       #ar-prompt {
         display: none;
       }
+      body, html {
+        margin: 0;
+        padding: 0;
+      }
     </style>
   </head>
   <body>
@@ -27,7 +32,7 @@
       src="Testha02.glb"
       ios-src="Testha02.usdz"
       ar
-      ar-modes="scene-viewer quick-look"  <!-- Only Scene Viewer -->
+      ar-modes="scene-viewer quick-look"
       camera-controls
       tone-mapping="neutral"
       poster="poster.webp"
@@ -35,7 +40,7 @@
       animation-name="all"
       autoplay
       reveal="auto"
-      style="width:100%; height:100vh;"
+      style="width: 100%; height: 100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
@@ -54,23 +59,9 @@
       const modelViewer = document.querySelector('#modelViewer');
 
       modelViewer.addEventListener('load', () => {
-        // Force to first frame and pause
         modelViewer.currentTime = 0;
         modelViewer.pause();
       });
-
-      document.getElementById('ar-button').addEventListener('click', () => {
-        // Let Scene Viewer take over — no need to play in browser
-        // modelViewer.play();  // optional, not needed for Scene Viewer
-      });
-
-      // Remove any debug overlay if exists
-      const hideDebug = () => {
-        const debug = document.querySelector('model-viewer::part(debug)') || document.querySelector('.debug');
-        if (debug) debug.style.display = 'none';
-      };
-
-      hideDebug();
     </script>
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
