@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; Scene Viewer AR</title>
+    <title>Model Viewer Zoom Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -32,9 +32,9 @@
       }
 
       #ar-button img {
-        width: 144px;
-        height: 144px;
-        opacity: 0.5; /* 👈 change this number to increase/decrease opacity */
+        width: 170px;
+        height: 170px;
+        opacity: 0.5; /* 👈 change this for more/less transparency */
         transition: opacity 0.3s ease;
       }
 
@@ -60,15 +60,17 @@
       shadow-intensity="1"
       animation-name="all"
       autoplay
-      reveal="interaction"
-      camera-orbit="0deg 75deg 1.5m"
+      reveal="auto"                       <!-- ✅ Always show model preview -->
+      camera-orbit="0deg 75deg 0.5m"      <!-- ✅ Zoom and angle control -->
+      auto-rotate                         <!-- ✅ Shows 3D depth -->
+      style="width:100%; height:100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
       </div>
     </model-viewer>
 
-    <!-- Custom AR button -->
+    <!-- Centered AR button -->
     <button id="ar-button">
       <img src="ar_icon.png" alt="AR Button">
     </button>
