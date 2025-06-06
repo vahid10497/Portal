@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; template</title>
+    <title>&lt;model-viewer&gt; Scene Viewer</title>
     <meta charset="utf-8">
-    <meta name="description" content="&lt;model-viewer&gt; template">
+    <meta name="description" content="Scene Viewer AR">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="./styles.css" rel="stylesheet"/>
     <style>
-      /* Center the “View in your space” button */
       model-viewer ::slotted([slot="ar-button"]) {
         position: absolute;
         top: 50%;
@@ -17,27 +16,23 @@
         padding: 1em 2em;
         font-size: 1rem;
       }
-      /* Hide the default bottom prompt so it doesn’t overlap */
       #ar-prompt {
         display: none;
       }
     </style>
   </head>
   <body>
-    <!-- <model-viewer> HTML element -->
-    <!-- animation stays paused until AR button is tapped -->
     <model-viewer
       id="modelViewer"
       src="Testha02.glb"
       ios-src="Testha02.usdz"
       ar
-      ar-modes="webxr scene-viewer quick-look"
+      ar-modes="scene-viewer quick-look"  <!-- force Scene Viewer -->
       camera-controls
       tone-mapping="neutral"
       poster="poster.webp"
       shadow-intensity="1"
       animation-name="all"
-      arithmetic="plain"
       reveal="interaction"
       style="width:100%; height:100vh;"
     >
@@ -56,25 +51,14 @@
 
     <script>
       const modelViewer = document.querySelector('#modelViewer');
-      const arButton = document.getElementById('ar-button');
-
-      // On load, pause so the model stays on first frame
       modelViewer.addEventListener('load', () => {
         modelViewer.pause();
       });
-
-      // When the AR button is tapped:
-      // 1. Play the animation
-      // 2. Let <model-viewer> handle placement as usual
-      arButton.addEventListener('click', () => {
+      document.getElementById('ar-button').addEventListener('click', () => {
         modelViewer.play();
       });
     </script>
 
-    <!-- Loads <model-viewer> for browsers: -->
-    <script
-      type="module"
-      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
-    ></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   </body>
 </html>
