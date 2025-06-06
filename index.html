@@ -10,6 +10,7 @@
   <body>
     <!-- <model-viewer> HTML element -->
     <!-- Removed `autoplay` so it starts paused at frame 0 -->
+    <!-- Added `reveal="interaction"` so it stays on the first frame until user interaction -->
     <model-viewer
       id="modelViewer"
       src="Testha02.glb"
@@ -20,7 +21,8 @@
       tone-mapping="neutral"
       poster="poster.webp"
       shadow-intensity="1"
-      animation-name="all"   <!-- ensure we know which clip to play -->
+      animation-name="all"
+      reveal="interaction"
       style="width:100%; height:100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
@@ -39,29 +41,27 @@
     <script>
       const modelViewer = document.querySelector('#modelViewer');
 
-      // On initial load (both desktop and mobile), pause so we're at frame 0
+      // Ensure the animation is paused at frame 0 once the GLB is loaded
       modelViewer.addEventListener('load', () => {
         modelViewer.pause();
       });
 
-      // Listen for when AR presentation actually begins
-      modelViewer.addEventListener('ar-status', (event) => {
-        // When status === "presenting", the user is seeing the AR session live
-        if (event.detail.status === 'presenting') {
-          // Immediately pause in case it auto‐played
-          modelViewer.pause();
-
-          // Wait for the user's tap in AR to start the animation
-          const onFirstTap = () => {
-            modelViewer.play();
-            modelViewer.removeEventListener('click', onFirstTap);
-          };
-          modelViewer.addEventListener('click', onFirstTap);
-        }
+      // Trigger play only after the model is placed in AR
+      modelViewer.addEventListener('ar-placed', () => {
+        // Now that the user has tapped to place the model, listen for their tap to start animation
+        const onTapToPlay = () => {
+          modelViewer.play();
+          modelViewer.removeEventListener('click', onTapToPlay);
+        };
+        // Wait for a tap anywhere on the <model-viewer> after placement
+        modelViewer.addEventListener('click', onTapToPlay);
       });
     </script>
 
     <!-- Loads <model-viewer> for browsers: -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
   </body>
 </html>
