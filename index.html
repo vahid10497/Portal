@@ -9,16 +9,19 @@
   </head>
   <body>
     <!-- <model-viewer> HTML element -->
-    <!-- Removed “autoplay” so animation won’t start until user taps -->
+    <!-- Removed `autoplay` so it starts paused at frame 0 -->
     <model-viewer
       id="modelViewer"
       src="Testha02.glb"
+      ios-src="Testha02.usdz"
       ar
       ar-modes="webxr scene-viewer quick-look"
       camera-controls
       tone-mapping="neutral"
       poster="poster.webp"
       shadow-intensity="1"
+      animation-name="all"   <!-- ensure we know which clip to play -->
+      style="width:100%; height:100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
@@ -34,16 +37,27 @@
     </model-viewer>
 
     <script>
-      // Grab the <model-viewer> element
       const modelViewer = document.querySelector('#modelViewer');
 
-      // Ensure animation is paused on load (no autoplay)
-      modelViewer.pause();
+      // On initial load (both desktop and mobile), pause so we're at frame 0
+      modelViewer.addEventListener('load', () => {
+        modelViewer.pause();
+      });
 
-      // When the user taps (either to place in AR or to tap the model),
-      // start playing the animation
-      modelViewer.addEventListener('click', () => {
-        modelViewer.play();
+      // Listen for when AR presentation actually begins
+      modelViewer.addEventListener('ar-status', (event) => {
+        // When status === "presenting", the user is seeing the AR session live
+        if (event.detail.status === 'presenting') {
+          // Immediately pause in case it auto‐played
+          modelViewer.pause();
+
+          // Wait for the user's tap in AR to start the animation
+          const onFirstTap = () => {
+            modelViewer.play();
+            modelViewer.removeEventListener('click', onFirstTap);
+          };
+          modelViewer.addEventListener('click', onFirstTap);
+        }
       });
     </script>
 
