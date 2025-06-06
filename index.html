@@ -8,31 +8,39 @@
       html, body {
         margin: 0;
         padding: 0;
+        height: 100%;
+        overflow: hidden;
       }
 
-      model-viewer::part(ar-button),
-      model-viewer ::slotted([slot="ar-button"]) {
+      model-viewer {
+        width: 100%;
+        height: 100vh;
+        display: block;
+        position: relative;
+      }
+
+      /* ✅ Truly center the custom AR button */
+      #ar-button {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 2;
         background: none;
         border: none;
         padding: 0;
+        z-index: 10;
         cursor: pointer;
       }
 
-      model-viewer ::slotted([slot="ar-button"]) img {
+      #ar-button img {
         width: 72px;
         height: 72px;
-        object-fit: contain;
-        opacity: 0.7; /* ✅ slightly transparent */
+        opacity: 0.7; /* ✅ semi-transparent */
         transition: opacity 0.3s ease;
       }
 
-      model-viewer ::slotted([slot="ar-button"]) img:hover {
-        opacity: 1.0; /* fully visible on hover */
+      #ar-button img:hover {
+        opacity: 1;
       }
 
       #ar-prompt {
@@ -54,32 +62,32 @@
       animation-name="all"
       autoplay
       reveal="interaction"
-      style="width: 100%; height: 100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
       </div>
 
-      <!-- ✅ Custom image button -->
-      <button slot="ar-button" id="ar-button">
-        <img src="ar_icon.png" alt="Enter AR">
-      </button>
-
-      <div id="ar-prompt">
-        <img src="ar_hand_prompt.png" alt="AR prompt">
-      </div>
+      <!-- ✅ Replacing slotted AR button with manual one -->
     </model-viewer>
 
-    <script type="module"
-      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
+    <!-- ✅ Manually placed centered button -->
+    <button id="ar-button" slot="ar-button">
+      <img src="ar_icon.png" alt="AR Button">
+    </button>
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
     <script>
       const modelViewer = document.getElementById("modelViewer");
+      const arButton = document.getElementById("ar-button");
 
       modelViewer.addEventListener("load", () => {
         modelViewer.pause();
         modelViewer.currentTime = 0;
+      });
+
+      arButton.addEventListener("click", () => {
+        modelViewer.activateAR();
       });
     </script>
   </body>
