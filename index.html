@@ -19,7 +19,6 @@
         position: relative;
       }
 
-      /* ✅ Truly center the custom AR button */
       #ar-button {
         position: absolute;
         top: 50%;
@@ -33,9 +32,9 @@
       }
 
       #ar-button img {
-        width: 256px;
-        height: 256px;
-        opacity: 0.7; /* ✅ semi-transparent */
+        width: 144px;
+        height: 144px;
+        opacity: 0.7; /* 👈 change this number to increase/decrease opacity */
         transition: opacity 0.3s ease;
       }
 
@@ -62,16 +61,15 @@
       animation-name="all"
       autoplay
       reveal="interaction"
+      camera-orbit="0deg 75deg 1.5m"
     >
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
       </div>
-
-      <!-- ✅ Replacing slotted AR button with manual one -->
     </model-viewer>
 
-    <!-- ✅ Manually placed centered button -->
-    <button id="ar-button" slot="ar-button">
+    <!-- Custom AR button -->
+    <button id="ar-button">
       <img src="ar_icon.png" alt="AR Button">
     </button>
 
