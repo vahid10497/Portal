@@ -9,6 +9,7 @@
         margin: 0;
         padding: 0;
       }
+
       model-viewer::part(ar-button),
       model-viewer ::slotted([slot="ar-button"]) {
         position: absolute;
@@ -16,12 +17,18 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 2;
-        padding: 1em 2em;
-        font-size: 1rem;
-        background-color: white;
-        border: 1px solid black;
-        border-radius: 8px;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
       }
+
+      model-viewer ::slotted([slot="ar-button"]) img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+      }
+
       #ar-prompt {
         display: none;
       }
@@ -47,9 +54,9 @@
         <div class="update-bar"></div>
       </div>
 
-      <!-- ✅ THIS BUTTON SHOULD BE VISIBLE -->
+      <!-- ✅ Replaced button with image -->
       <button slot="ar-button" id="ar-button">
-        View in your space
+        <img src="ar_icon.png" alt="Enter AR">
       </button>
 
       <div id="ar-prompt">
