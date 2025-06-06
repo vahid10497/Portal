@@ -1,22 +1,16 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; with Animation on iPhone</title>
+    <title>&lt;model-viewer&gt; AR on iPhone</title>
     <meta charset="utf-8" />
-    <meta name="description" content="&lt;model-viewer&gt; template with animations" />
+    <meta name="description" content="&lt;model-viewer&gt; template with iOS Quick Look support" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      type="text/css"
-      href="./styles.css"
-      rel="stylesheet" />
+    <link type="text/css" href="./styles.css" rel="stylesheet" />
   </head>
   <body>
-    <!-- 
-      On iOS Safari, <model-viewer> will load Testha02.glb 
-      for the in-page view (and its animations will play because of 'autoplay').
-      When you tap the AR button, it will hand off to Quick Look using Testha02.usdz 
-      (which must include the same animations).
-    -->
+    <!-- 1) Make sure you're serving this HTML + Testha02.glb + Testha02.usdz via HTTPS. -->
+    <!-- 2) Open this same URL in Safari on iPhone (not Chrome). -->
+
     <model-viewer
       src="Testha02.glb"
       ios-src="Testha02.usdz"
