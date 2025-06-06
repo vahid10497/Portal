@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-      body, html {
+      html, body {
         margin: 0;
         padding: 0;
       }
@@ -24,9 +24,15 @@
       }
 
       model-viewer ::slotted([slot="ar-button"]) img {
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
         object-fit: contain;
+        opacity: 0.7; /* ✅ slightly transparent */
+        transition: opacity 0.3s ease;
+      }
+
+      model-viewer ::slotted([slot="ar-button"]) img:hover {
+        opacity: 1.0; /* fully visible on hover */
       }
 
       #ar-prompt {
@@ -54,7 +60,7 @@
         <div class="update-bar"></div>
       </div>
 
-      <!-- ✅ Replaced button with image -->
+      <!-- ✅ Custom image button -->
       <button slot="ar-button" id="ar-button">
         <img src="ar_icon.png" alt="Enter AR">
       </button>
