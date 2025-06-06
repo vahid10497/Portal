@@ -1,28 +1,29 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; Scene Viewer Clean</title>
+    <title>&lt;model-viewer&gt; Scene Viewer AR</title>
     <meta charset="utf-8">
-    <meta name="description" content="Clean Scene Viewer AR">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" href="./styles.css" rel="stylesheet"/>
     <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+      }
       model-viewer::part(ar-button),
       model-viewer ::slotted([slot="ar-button"]) {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 1;
+        z-index: 2;
         padding: 1em 2em;
         font-size: 1rem;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 8px;
       }
       #ar-prompt {
         display: none;
-      }
-      body, html {
-        margin: 0;
-        padding: 0;
       }
     </style>
   </head>
@@ -39,13 +40,14 @@
       shadow-intensity="1"
       animation-name="all"
       autoplay
-      reveal="auto"
+      reveal="interaction"
       style="width: 100%; height: 100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
       </div>
 
+      <!-- ✅ THIS BUTTON SHOULD BE VISIBLE -->
       <button slot="ar-button" id="ar-button">
         View in your space
       </button>
@@ -55,15 +57,17 @@
       </div>
     </model-viewer>
 
-    <script>
-      const modelViewer = document.querySelector('#modelViewer');
-
-      modelViewer.addEventListener('load', () => {
-        modelViewer.currentTime = 0;
-        modelViewer.pause();
-      });
+    <script type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
     </script>
 
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script>
+      const modelViewer = document.getElementById("modelViewer");
+
+      modelViewer.addEventListener("load", () => {
+        modelViewer.pause();
+        modelViewer.currentTime = 0;
+      });
+    </script>
   </body>
 </html>
