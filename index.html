@@ -9,8 +9,7 @@
   </head>
   <body>
     <!-- <model-viewer> HTML element -->
-    <!-- Removed `autoplay` so it starts paused at frame 0 -->
-    <!-- Added `reveal="interaction"` so it stays on the first frame until user interaction -->
+    <!-- Removed `autoplay` so it stays on the first frame -->
     <model-viewer
       id="modelViewer"
       src="Testha02.glb"
@@ -22,7 +21,6 @@
       poster="poster.webp"
       shadow-intensity="1"
       animation-name="all"
-      reveal="interaction"
       style="width:100%; height:100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
@@ -41,20 +39,14 @@
     <script>
       const modelViewer = document.querySelector('#modelViewer');
 
-      // Ensure the animation is paused at frame 0 once the GLB is loaded
+      // On initial load, pause so the animation remains at frame 0
       modelViewer.addEventListener('load', () => {
         modelViewer.pause();
       });
 
-      // Trigger play only after the model is placed in AR
-      modelViewer.addEventListener('ar-placed', () => {
-        // Now that the user has tapped to place the model, listen for their tap to start animation
-        const onTapToPlay = () => {
-          modelViewer.play();
-          modelViewer.removeEventListener('click', onTapToPlay);
-        };
-        // Wait for a tap anywhere on the <model-viewer> after placement
-        modelViewer.addEventListener('click', onTapToPlay);
+      // As soon as the user taps the AR button, start the animation
+      document.getElementById('ar-button').addEventListener('click', () => {
+        modelViewer.play();
       });
     </script>
 
