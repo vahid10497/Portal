@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; Scene Viewer</title>
+    <title>&lt;model-viewer&gt; Scene Viewer Clean</title>
     <meta charset="utf-8">
-    <meta name="description" content="Scene Viewer AR">
+    <meta name="description" content="Clean Scene Viewer AR">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="./styles.css" rel="stylesheet"/>
     <style>
@@ -27,13 +27,14 @@
       src="Testha02.glb"
       ios-src="Testha02.usdz"
       ar
-      ar-modes="scene-viewer quick-look"  <!-- force Scene Viewer -->
+      ar-modes="scene-viewer quick-look"  <!-- Only Scene Viewer -->
       camera-controls
       tone-mapping="neutral"
       poster="poster.webp"
       shadow-intensity="1"
       animation-name="all"
-      reveal="interaction"
+      autoplay
+      reveal="auto"
       style="width:100%; height:100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
@@ -51,12 +52,25 @@
 
     <script>
       const modelViewer = document.querySelector('#modelViewer');
+
       modelViewer.addEventListener('load', () => {
+        // Force to first frame and pause
+        modelViewer.currentTime = 0;
         modelViewer.pause();
       });
+
       document.getElementById('ar-button').addEventListener('click', () => {
-        modelViewer.play();
+        // Let Scene Viewer take over — no need to play in browser
+        // modelViewer.play();  // optional, not needed for Scene Viewer
       });
+
+      // Remove any debug overlay if exists
+      const hideDebug = () => {
+        const debug = document.querySelector('model-viewer::part(debug)') || document.querySelector('.debug');
+        if (debug) debug.style.display = 'none';
+      };
+
+      hideDebug();
     </script>
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
