@@ -6,10 +6,26 @@
     <meta name="description" content="&lt;model-viewer&gt; template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="./styles.css" rel="stylesheet"/>
+    <style>
+      /* Center the “View in your space” button */
+      model-viewer ::slotted([slot="ar-button"]) {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        padding: 1em 2em;
+        font-size: 1rem;
+      }
+      /* Hide the default bottom prompt so it doesn’t overlap */
+      #ar-prompt {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <!-- <model-viewer> HTML element -->
-    <!-- Removed `autoplay` so it stays on the first frame -->
+    <!-- animation stays paused until AR button is tapped -->
     <model-viewer
       id="modelViewer"
       src="Testha02.glb"
@@ -21,6 +37,8 @@
       poster="poster.webp"
       shadow-intensity="1"
       animation-name="all"
+      arithmetic="plain"
+      reveal="interaction"
       style="width:100%; height:100vh;"
     >
       <div class="progress-bar hide" slot="progress-bar">
@@ -38,14 +56,17 @@
 
     <script>
       const modelViewer = document.querySelector('#modelViewer');
+      const arButton = document.getElementById('ar-button');
 
-      // On initial load, pause so the animation remains at frame 0
+      // On load, pause so the model stays on first frame
       modelViewer.addEventListener('load', () => {
         modelViewer.pause();
       });
 
-      // As soon as the user taps the AR button, start the animation
-      document.getElementById('ar-button').addEventListener('click', () => {
+      // When the AR button is tapped:
+      // 1. Play the animation
+      // 2. Let <model-viewer> handle placement as usual
+      arButton.addEventListener('click', () => {
         modelViewer.play();
       });
     </script>
