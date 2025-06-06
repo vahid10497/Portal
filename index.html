@@ -1,27 +1,53 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; template</title>
-    <meta charset="utf-8">
-    <meta name="description" content="&lt;model-viewer&gt; template">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" href="./styles.css" rel="stylesheet"/>
+    <title>&lt;model-viewer&gt; with Animation on iPhone</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="&lt;model-viewer&gt; template with animations" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      type="text/css"
+      href="./styles.css"
+      rel="stylesheet" />
   </head>
   <body>
-    <!-- <model-viewer> HTML element -->
-    <model-viewer src="Testha02.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" autoplay>
+    <!-- 
+      On iOS Safari, <model-viewer> will load Testha02.glb 
+      for the in-page view (and its animations will play because of 'autoplay').
+      When you tap the AR button, it will hand off to Quick Look using Testha02.usdz 
+      (which must include the same animations).
+    -->
+    <model-viewer
+      src="Testha02.glb"
+      ios-src="Testha02.usdz"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      tone-mapping="neutral"
+      poster="poster.webp"
+      shadow-intensity="1"
+      autoplay
+      animation-name="all"
+      style="width: 100%; height: 100vh;"
+    >
       <div class="progress-bar hide" slot="progress-bar">
-          <div class="update-bar"></div>
+        <div class="update-bar"></div>
       </div>
+
       <button slot="ar-button" id="ar-button">
-          View in your space
+        View in your space
       </button>
+
       <div id="ar-prompt">
-          <img src="ar_hand_prompt.png">
+        <img src="ar_hand_prompt.png" alt="AR prompt" />
       </div>
-    </model-viewer>  
+    </model-viewer>
+
     <script src="script.js"></script>
     <!-- Loads <model-viewer> for browsers: -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
   </body>
 </html>
